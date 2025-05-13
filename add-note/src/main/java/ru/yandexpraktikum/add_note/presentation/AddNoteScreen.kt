@@ -1,4 +1,4 @@
-package ru.yandexpraktikum.add_note.presentation;
+package ru.yandexpraktikum.add_note.presentation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import ru.yandexpraktikum.add_note.R
 import ru.yandexpraktikum.core.presentation.model.NoteUi
 
@@ -34,7 +35,7 @@ import ru.yandexpraktikum.core.presentation.model.NoteUi
 fun AddNoteScreen(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
-    viewModel: AddNoteViewModel
+    viewModel: AddNoteViewModel = hiltViewModel()
 ) {
     var title by remember { mutableStateOf("") }
     var content by remember { mutableStateOf("") }
