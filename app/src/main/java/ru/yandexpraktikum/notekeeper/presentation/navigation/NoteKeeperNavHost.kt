@@ -6,19 +6,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ru.yandexpraktikum.add_note.presentation.AddNoteScreen
-import ru.yandexpraktikum.add_note.presentation.AddNoteViewModel
 import ru.yandexpraktikum.all_notes.presentation.AllNotesScreen
-import ru.yandexpraktikum.all_notes.presentation.AllNotesViewModel
-import ru.yandexpraktikum.notekeeper.di.ApplicationComponent
 
 @Composable
 fun NoteKeeperNavHost(
-    appComponent: ApplicationComponent,
     navController: NavHostController
 ) {
     NavHost(
@@ -28,19 +23,11 @@ fun NoteKeeperNavHost(
         composable(route = Screen.AllNotes.route) {
             var allNotesComponent by remember { mutableStateOf<Any?>(null) }
             DisposableEffect(Unit) {
-                allNotesComponent = appComponent.getAllNotesSubcomponentFactory().create()
                 onDispose {
                     allNotesComponent = null
                 }
             }
-            val vm: AllNotesViewModel = viewModel(
-                factory = appComponent
-                    .getAllNotesSubcomponentFactory()
-                    .create()
-                    .getAllNotesViewModelFactory()
-            )
             AllNotesScreen(
-                viewModel = vm,
                 onAddNoteClick = {
                     navController.navigate(Screen.AddNote.route)
                 }
@@ -49,16 +36,11 @@ fun NoteKeeperNavHost(
         composable(route = Screen.AddNote.route) {
             var addNoteComponent by remember { mutableStateOf<Any?>(null) }
             DisposableEffect(Unit) {
-                addNoteComponent = appComponent.getAddNoteSubcomponentFactory().create()
                 onDispose {
                     addNoteComponent = null
                 }
             }
-            val vm: AddNoteViewModel = viewModel(
-                factory = appComponent.getAddNoteSubcomponentFactory().create().getAddNoteViewModelFactory()
-            )
             AddNoteScreen(
-                viewModel = vm,
                 onBackClick = {
                     navController.popBackStack()
                 }
